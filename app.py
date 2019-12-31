@@ -3,7 +3,7 @@
 from flask import Flask, request
 import argparse
 import git
-import os
+from pathlib import Path
 
 
 parser = argparse.ArgumentParser()
@@ -14,7 +14,7 @@ args = parser.parse_args()
 app = Flask(__name__)
 
 
-def create_git_repo(dir_path):
+def check_directory(dir_path):
     """create git instance
     
     Args:
@@ -25,22 +25,25 @@ def create_git_repo(dir_path):
         FileExistsError: dir_path does not have .git directory
     
     Returns:
-        [type]: [description]
+        string: directory path
     """
 
+    p = Path(dir_path)
+
     # exsist check
-    if os.path.exists(dir_path):
+    if p.exists():
         pass
     else:
         raise FileExistsError('the directory does not exist.')
 
     # .git directory check
-    if os.path.exists(dir_path + '/.git'):
+    git_p = p / '.git'
+    if git_p.exists():
         pass
     else:
         raise FileExistsError('the directory does not have .git directory')
 
-    return git.Repo(dir_path)
+    return dir_path
 
 
 @app.route('/', methods=['POST'])
@@ -54,5 +57,5 @@ def gitpull():
 
 if __name__ == '__main__':
     global git_repo
-    git_repo = create_git_repo(args.args1)
+    git_repo = git.Repo(check_directory(args.arg1))
     app.run(port=50000, debug=True)
