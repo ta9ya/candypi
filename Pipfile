@@ -12,8 +12,6 @@ isort = "*"
 tox = "*"
 
 [packages]
-beebotte = "*"
-paho-mqtt = "*"
 flask = "*"
 gitpython = "*"
 

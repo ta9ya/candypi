@@ -3,10 +3,13 @@
 
 import argparse
 import datetime
-from pathlib import Path
+# from pathlib import Path
 
 import git
 from flask import Flask, request
+
+from candypi import check_directory
+
 
 parser = argparse.ArgumentParser()
 parser.add_argument('arg1', help='the full path of the git directory')
@@ -22,36 +25,36 @@ def print_candypi(text):
     print('[CanDyPi] {time} {statement}'.format(time=dt_now.strftime('%Y-%m-%d %H:%M:%S'), statement=text))
 
 
-def check_directory(dir_path):
-    """create git instance
+# def check_directory(dir_path: str):
+#     """create git instance
     
-    Args:
-        dir_path (string): fullpath of git root directory
+#     Args:
+#         dir_path (str): fullpath of git root directory
     
-    Raises:
-        FileExistsError: dir_path does not exist
-        FileExistsError: dir_path does not have .git directory
+#     Raises:
+#         FileExistsError: dir_path does not exist
+#         FileExistsError: dir_path does not have .git directory
     
-    Returns:
-        string: directory path
-    """
+#     Returns:
+#         string: directory path
+#     """
 
-    p = Path(dir_path)
+#     p = Path(dir_path)
 
-    # exsist check
-    if p.exists():
-        pass
-    else:
-        raise FileExistsError('the directory does not exist.')
+#     # exsist check
+#     if p.exists():
+#         pass
+#     else:
+#         raise FileExistsError('the directory does not exist.')
 
-    # .git directory check
-    git_p = p / '.git'
-    if git_p.exists():
-        pass
-    else:
-        raise FileExistsError('the directory does not have .git directory')
+#     # .git directory check
+#     git_p = p / '.git'
+#     if git_p.exists():
+#         pass
+#     else:
+#         raise FileExistsError('the directory does not have .git directory')
 
-    return dir_path
+#     return dir_path
 
 
 @app.route('/', methods=['POST'])
@@ -71,7 +74,7 @@ def gitpull():
         return 'not target branch'
 
 
-if __name__ == '__main__':
+def main():
     global git_repo
     git_repo = git.Repo(check_directory(args.arg1))
 
@@ -79,3 +82,7 @@ if __name__ == '__main__':
     print_candypi('target branch is {}'.format(target_branch))
 
     app.run(port=50000, debug=True)
+
+
+if __name__ == '__main__':
+    main()
