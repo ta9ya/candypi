@@ -7,6 +7,8 @@ from candypi import check_directory
 
 
 class TestCheckDirectory(object):
+    
+    @pytest.mark.skip(reason='pytestskip')
     def test_check_directory(self):
         TESTS = [
             ('/Users/iwasa/work/mogbee')
