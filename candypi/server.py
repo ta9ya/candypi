@@ -29,7 +29,6 @@ def print_candypi(text):
 def gitpull():
     data = request.get_json()
     ref = data.get('ref')
-    print_candypi(ref)
     
     target_branch = args.branch
 
