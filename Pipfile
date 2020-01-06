@@ -10,6 +10,8 @@ pytest = "*"
 autopep8 = "*"
 isort = "*"
 tox = "*"
+wheel = "*"
+twine = "*"
 
 [packages]
 flask = "*"
